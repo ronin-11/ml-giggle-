@@ -68,7 +68,7 @@ def generate_frames(video):
 def main():
     """ """
 
-    st.title("Object Detection App")
+   
 
     html_temp = """
     <body style="background-color:red;">
