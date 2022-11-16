@@ -1,3 +1,9 @@
+##OBJECT DETECTION WEB APP
+
+       ##MADE BY  ABEL TINOTENDA TEMBO..................R204434C
+       ##         MALCOM JAYAGURU ......................R204431Y 
+
+
 import streamlit as st
 from charset_normalizer import detect
 from numpy import object_
