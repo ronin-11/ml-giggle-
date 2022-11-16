@@ -70,7 +70,14 @@ def generate_frames(video):
     print('Read a new frame: ', success)
     count += 1
   return
-
+def searchObject(searchItem, classes, frames):
+    if searchItem in classes:
+        index = classes.index(searchItem)
+        img = frames[index]
+        img = Image.open(img)
+        st.image(img, caption=searchItem)
+    else:
+        st.write("object not found")
 def main():
     """ """
 
@@ -100,14 +107,7 @@ def main():
         #detect_Object()
 
 
-def searchObject(searchItem, classes, frames):
-    if searchItem in classes:
-        index = classes.index(searchItem)
-        img = frames[index]
-        img = Image.open(img)
-        st.image(img, caption=searchItem)
-    else:
-        st.write("object not found")
+
 
 if __name__ == '__main__':
     main()
