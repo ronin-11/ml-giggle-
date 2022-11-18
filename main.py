@@ -85,7 +85,7 @@ def main():
 
     html_temp = """
     <body style="background-color:red;">
-    <div style="background-color:blue ;padding:10px">
+    <div style="background-color:white ;padding:10px">
     <h2 style="color:blue;text-align:center;">Object Detecting WebApp</h2>
     </div>
     </body>
