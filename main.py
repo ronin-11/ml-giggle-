@@ -69,6 +69,7 @@ def generate_frames(video):
     success, image = vidcap.read()
     print('Read a new frame: ', success)
     count += 1
+     st.success("Successfully split the video into frames")
   return
 def searchObject(searchItem, classes, frames):
     if searchItem in classes:
