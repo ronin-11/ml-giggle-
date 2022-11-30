@@ -68,8 +68,9 @@ def generate_frames(video):
     cv2.imwrite("frames/frame%d.jpg" % count, image)  # save frame as JPEG file
     success, image = vidcap.read()
     print('Read a new frame: ', success)
-    count = 0
     st.success("Successfully split the video into frames")
+    count = 0
+    
   return
 def searchObject(searchItem, classes, frames):
     if searchItem in classes:
