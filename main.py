@@ -88,14 +88,14 @@ def main():
     html_temp = """
     <body style="background-color:red;">
     <div style="background-color:white ;padding:10px">
-    <h2 style="color:blue;text-align:center;">Object Detecting WebApp</h2>
+    <h2 style="color:blue;text-align:center;">Image Captioning WebApp</h2>
     </div>
     </body>
     """
     st.markdown(html_temp, unsafe_allow_html=True)
 
     st.title("Detect and classify ")
-    uploaded_file = st.file_uploader("Choose a video...of not more than 2MB", type=["mp4"])
+    uploaded_file = st.file_uploader("Choose a video...of not more than 0.02MB", type=["mp4"])
     temporary_location = False
     if uploaded_file is not None:
         filename = 'uploadedVideos/' + str(save_uploadedfile(uploaded_file))
