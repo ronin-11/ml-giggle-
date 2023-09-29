@@ -1,7 +1,7 @@
-##OBJECT DETECTION WEB APP
+##IMAGE CAPTIONING WEBAPP
 
        ##MADE BY  ABEL TINOTENDA TEMBO..................R204434C
-       ##         MALCOM JAYAGURU ......................R204431Y 
+
 
 
 import streamlit as st
