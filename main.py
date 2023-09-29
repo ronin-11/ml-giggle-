@@ -102,9 +102,9 @@ def main():
         generate_frames(filename)
         ## Detect objects in frames
         #detect_Object()
-    search_item = st.text_input('search object')
-    if st.button("Search"):
-        classifyObjects()
+    search_item = st.text_input('generated captions')
+    #if st.button("Search"):
+        #classifyObjects()
         #detect_Object()
 
 
