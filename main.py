@@ -3,112 +3,77 @@
        ##MADE BY  ABEL TINOTENDA TEMBO..................R204434C
 
 
-
 import streamlit as st
-from charset_normalizer import detect
-from numpy import object_
-import shutil
 import cv2
+import tempfile
 import os
 from PIL import Image
-import numpy as np
-from mailbox import ExternalClashError
-import pandas as pd
-import numpy as np
-import pickle
-import streamlit as st
-from PIL import Image
-import io
-from keras.applications.vgg16 import VGG16
-# load the model
-model = VGG16()
+from io import BytesIO
+import requests
 
-from keras.preprocessing.image import load_img
-# load an image from file
-from keras.preprocessing.image import img_to_array
-# convert the image pixels to a numpy array
-from keras.applications.vgg16 import preprocess_input
-from keras.applications.vgg16 import decode_predictions
+# Function to upload video and split into frames
+def process_video(video):
+    frames = []
 
-## Function to detect object
+    # Read video using OpenCV
+    vidcap = cv2.VideoCapture(video)
 
-
-def classifyObjects():
-    #generate_frames()
-    model = VGG16()
-    classifications = []
-    frames = 'C:/Users/USER/PycharmProjects/GeneralManager/frames'
-    for i in range(len(frames)):
-        img = load_img(frames[i], target_size=(224, 224))  # load an image from file
-        img = img_to_array(img)  # convert the image pixels to a numpy array
-        img = img.reshape((1, img.shape[0], img.shape[1], img.shape[2]))
-        img = preprocess_input(img)  # prepare the image for the VGG model
-        img_pred = model.predict(img)
-        label = decode_predictions(img_pred)
-        label = label[0][0]
-        result = label[1]
-        classifications.append(result)
-    return classifications, frames
-
-## Function to save the uploaded file
-def save_uploadedfile(uploaded_file):
-    with open(os.path.join("uploadedVideos", uploaded_file.name), "wb") as f:
-      f.write(uploaded_file.getbuffer())
-      global filename
-      filename = uploaded_file.name
-      st.success("Saved File:{} to tempDir".format(uploaded_file.name))
-      return filename
-## Function to split video into frames
-def generate_frames(video):
-  vidcap = cv2.VideoCapture(video)
-  success, image = vidcap.read()
-  count = 0
-
-  while success:
-    cv2.imwrite("frames/frame%d.jpg" % count, image)  # save frame as JPEG file
+    # Get frames from video
     success, image = vidcap.read()
-    print('Read a new frame: ', success)
-    st.success("Successfully split the video into frames")
-    count = 0
-    
-  return
-def searchObject(searchItem, classes, frames):
-    if searchItem in classes:
-        index = classes.index(searchItem)
-        img = frames[index]
-        img = Image.open(img)
-        st.image(img, caption=searchItem)
-    else:
-        st.write("caption not found")
+    while success:
+        frames.append(image)
+        success, image = vidcap.read()
+
+    return frames
+
+# Function to generate text description using the deployed model
+def generate_description(frames):
+    descriptions = []
+
+    # Iterate through frames and process using the deployed model
+    for frame in frames:
+        # Process frame with the deployed model and generate description
+        # Replace this with your code to process frames with the model
+        description = "This is a sample description for the frame."
+        descriptions.append(description)
+
+    return descriptions
+
+# Main application code
 def main():
-    """ """
+    st.title("Video Description Generator")
+    st.write("Upload a video file (max 2MB) to generate text descriptions for each frame.")
 
-   
+    # Upload video file
+    video_file = st.file_uploader("Upload Video", type=["mp4", "mov"])
 
-    html_temp = """
-    <body style="background-color:red;">
-    <div style="background-color:white ;padding:10px">
-    <h2 style="color:blue;text-align:center;">Image Captioning WebApp</h2>
-    </div>
-    </body>
-    """
-    st.markdown(html_temp, unsafe_allow_html=True)
-       
-    uploaded_file = st.file_uploader("Choose a video...of not more than 2MB", type=["mp4"])
-    temporary_location = False
-    if uploaded_file is not None:
-        filename = 'uploadedVideos/' + str(save_uploadedfile(uploaded_file))
-        ## Split video into frames
-        generate_frames(filename)
-        ## Detect objects in frames
-        #detect_Object()
-    search_item = st.text_input('generated captions')
-    #if st.button("Search"):
-        #classifyObjects()
-        #detect_Object()
+    if video_file is not None:
+        # Check file size
+        if video_file.size > 2e6:
+            st.error("Video file size exceeds the limit of 2MB.")
+            return
 
+        # Save video to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_filename = temp_file.name
+            temp_file.write(video_file.read())
 
+        # Process video and generate frames
+        frames = process_video(temp_filename)
 
+        # Generate descriptions for frames
+        descriptions = generate_description(frames)
 
-if __name__ == '__main__':
+        # Display frames and descriptions
+        for i, (frame, description) in enumerate(zip(frames, descriptions)):
+            st.subheader(f"Frame {i+1}")
+            st.image(frame, channels="BGR", use_column_width=True)
+            st.write(description)
+            st.write("---")
+
+        # Remove temporary file
+        os.remove(temp_filename)
+
+if __name__ == "__main__":
     main()
+
