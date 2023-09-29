@@ -79,7 +79,7 @@ def searchObject(searchItem, classes, frames):
         img = Image.open(img)
         st.image(img, caption=searchItem)
     else:
-        st.write("object not found")
+        st.write("caption not found")
 def main():
     """ """
 
