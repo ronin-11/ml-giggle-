@@ -94,7 +94,7 @@ def main():
     """
     st.markdown(html_temp, unsafe_allow_html=True)
        
-    uploaded_file = st.file_uploader("Choose a video...of not more than 0.02MB", type=["mp4"])
+    uploaded_file = st.file_uploader("Choose a video...of not more than 2MB", type=["mp4"])
     temporary_location = False
     if uploaded_file is not None:
         filename = 'uploadedVideos/' + str(save_uploadedfile(uploaded_file))
